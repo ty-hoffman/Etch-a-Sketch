@@ -13,3 +13,12 @@ for (i = 1; i <= numberOfBoxes; i++) {
     containerGrid.appendChild(div);
 }
 
+const gridItems = document.querySelectorAll(".gridItem");
+
+gridItems.forEach((gridItem) => {
+    gridItem.addEventListener('mouseover', gridItemsHover);
+});
+
+function gridItemsHover(e) {
+    e.target.style.backgroundColor = 'black';
+}
