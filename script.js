@@ -1,9 +1,15 @@
 const containerGrid = document.querySelector(".grid");
 const selectElement = document.querySelector("select");
+const resetButton = document.querySelector(".reset");
+const eraseButton = document.querySelector(".erase");
 
 selectElement.addEventListener("change", updateGridSize);
+resetButton.addEventListener("click", resetGrid);
+eraseButton.addEventListener("click", eraseGridToggle);
 
 
+// creating variable outside function for access in resetGrid function
+gridItems = "";
 
 function updateGridSize(e) {
     
@@ -24,13 +30,38 @@ function updateGridSize(e) {
     containerGrid.appendChild(div);
     }
 
-    const gridItems = document.querySelectorAll(".gridItem");
+    gridItems = document.querySelectorAll(".gridItem");
 
     gridItems.forEach((gridItem) => {
         gridItem.addEventListener('mouseover', gridItemsHover);
     });
 
 
+}
+
+function resetGrid () {
+    gridItems.forEach((gridItem) => {
+        gridItem.style.backgroundColor ="lightgray";
+    });
+}
+
+function eraseGridToggle () {
+    switch (eraseButton.innerText) {
+        case "Erase":
+            eraseButton.innerText = "Draw";
+            gridItems.forEach((gridItem) => {
+                gridItem.removeEventListener('mouseover', gridItemsHover);
+                gridItem.addEventListener('mouseover', gridItemsHoverErase);
+            });
+            break;
+        case "Draw":
+            eraseButton.innerText = "Erase";
+            gridItems.forEach((gridItem) => {
+                gridItem.removeEventListener('mouseover', gridItemsHoverErase);
+                gridItem.addEventListener('mouseover', gridItemsHover);
+            });
+            break;
+    }
 }
 
 updateGridSize();
@@ -49,4 +80,8 @@ selectElement.value = 16;
 
 function gridItemsHover(e) {
     e.target.style.backgroundColor = 'black';
+}
+
+function gridItemsHoverErase(e) {
+    e.target.style.backgroundColor = 'lightgray';
 }
